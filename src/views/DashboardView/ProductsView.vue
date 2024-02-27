@@ -122,7 +122,7 @@ const {VITE_URL,VITE_PATH}=import.meta.env
       getProducts(page = 1){
           axios
           .get(
-            `${VITE_URL}/api/${VITE_PATH}/admin/products`
+            `${VITE_URL}/api/${VITE_PATH}/admin/products?page=${page}`
           )
           .then((res) => {
             console.log(res.data);
