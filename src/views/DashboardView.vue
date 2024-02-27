@@ -14,16 +14,15 @@
 </template>
 
 <script>
+    const {VITE_URL}=import.meta.env
+
     export default{
     data() {
       return {
-        VITE_URL:''
       }
     },
     mounted(){
       // console.log(import.meta.env);
-      const {VITE_URL,VITE_PATH}=import.meta.env
-      this.VITE_URL = VITE_URL
       const loginToken = document.cookie.replace(
         /(?:(?:^|.*;\s*)loginToken\s*\=\s*([^;]*).*$)|^.*$/,"$1",
       );
@@ -32,7 +31,7 @@
     },
     methods:{
       logout(){
-        this.axios.post(`${this.VITE_URL}/logout`)
+        this.axios.post(`${VITE_URL}/logout`)
         .then(res=>{
           // console.log(res);
           alert(res.data.message);
@@ -44,7 +43,7 @@
         })
       },
       checkLogin(){
-        this.axios.post(`${this.VITE_URL}/api/user/check`)
+        this.axios.post(`${VITE_URL}/api/user/check`)
         .then(res=>{
           // console.log(res);
           // this.$router.push('/')
