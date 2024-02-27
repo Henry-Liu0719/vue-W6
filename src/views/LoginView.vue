@@ -44,20 +44,21 @@
 </template>
 
 <script>
+  const {VITE_URL}=import.meta.env
   export default{
     data() {
       return {
         "userData":{
-          "username": "",
-          "password": ""
+          // "username": "",
+          // "password": "",
+          "username": "hungminliu@gmail.com",
+          "password": "a0961219",
         },
-        VITE_URL:''
       }
     },
     mounted(){
       // console.log(import.meta.env);
-      const {VITE_URL}=import.meta.env
-      this.VITE_URL = VITE_URL
+      
       const loginToken = document.cookie.replace(
         /(?:(?:^|.*;\s*)loginToken\s*\=\s*([^;]*).*$)|^.*$/,"$1",
       );
@@ -66,7 +67,7 @@
     },
     methods:{
       login(){
-        this.axios.post(`${this.VITE_URL}/admin/signin`,this.userData)
+        this.axios.post(`${VITE_URL}/admin/signin`,this.userData)
         .then(res=>{
           const {token,expired}=res.data;
           if (document.cookie.replace(/(?:(?:^|.*;\s*)loginToken\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== "true") {
@@ -81,7 +82,7 @@
         })
       },
       checkLogin(){
-        this.axios.post(`${this.VITE_URL}/api/user/check`)
+        this.axios.post(`${VITE_URL}/api/user/check`)
         .then(res=>{
           // console.log(res);
           alert('已登入，自動跳轉到後台');
