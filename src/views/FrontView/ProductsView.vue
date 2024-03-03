@@ -1,5 +1,6 @@
 <template lang="">
     <div id="app">
+      
       <loading-overlay :active="isLoading"></loading-overlay>
       <!-- <loading v-model:active="!isLoading"
                  :can-cancel="true"
@@ -13,6 +14,9 @@
       <!-- {{this.products[2]}} -->
       <div class="container">
         <div class="mt-4">
+          <div class="alert alert-primary" role="alert" v-if="isCartAdded">
+        {{ cartAddedMessage }}
+      </div>
           <!-- 產品Modal -->
 
           <!-- 產品Modal -->
@@ -89,6 +93,8 @@ export default {
       productModal: null,
       isLoading: true,
       isUpdating: true,
+      isCartAdded: false,
+      cartAddedMessage: '',
       qty:1,
       // orderData:{
       //   "data": {
@@ -147,6 +153,32 @@ export default {
           this.carts = res.data.data;
           this.isLoading = false;
           this.isUpdating = false;
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    },
+    addToCart(id,value=1) {
+      const data = {
+        data: {
+          product_id: id,
+          qty: Number(value),
+        },
+      };
+      // console.log(data);
+      this.isUpdating = true;
+      axios
+        .post(`${VITE_URL}/api/${VITE_PATH}/cart`, data)
+        .then((res) => {
+          console.log(res);
+          this.isUpdating = false;
+          this.cartAddedMessage = `${res.data.data.product.title}加入購物車成功`
+          this.isCartAdded = !this.isCartAdded
+          setTimeout(()=>{
+            this.isCartAdded = !this.isCartAdded
+          },3000);
+          this.$refs.userModal.close();
+          // this.getCarts();
         })
         .catch((error) => {
           console.dir(error);
@@ -217,10 +249,10 @@ export default {
     const phoneNumber = /^(09)[0-9]{8}$/
     return phoneNumber.test(value) ? true : '需要正確的電話號碼'
     },
-    minLength8(value) {
-    // 檢查字串長度是否大於等於8
-      return value.length >= 8?true:'電話須超過8碼';
-    },
+    // minLength8(value) {
+    // // 檢查字串長度是否大於等於8
+    //   return value.length >= 8?true:'電話須超過8碼';
+    // },
     // isPhoneOrMinLength8(value) {
     //   // 使用 || 运算符组合两个条件
     //   if(value.length < 8)return '電話須超過8碼'
