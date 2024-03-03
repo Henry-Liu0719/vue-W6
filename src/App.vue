@@ -6,7 +6,7 @@ export default {
   components: {
     RouterLink,
     RouterView,
-    HelloWorld
+    // HelloWorld
   }
 }
 </script>
@@ -14,7 +14,8 @@ export default {
 <template>
   <RouterView />
 </template>
-
+<style scoped>
+</style>
 <!-- <style scoped>
 header {
   line-height: 1.5;
