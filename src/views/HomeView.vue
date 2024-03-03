@@ -1,6 +1,6 @@
 
 <template>
   <main>
-    首頁
+    <h1>首頁</h1>
   </main>
 </template>
