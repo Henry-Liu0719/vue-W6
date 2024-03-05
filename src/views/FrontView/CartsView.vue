@@ -18,10 +18,10 @@
       <!-- {{carts}} -->
       <thead>
         <tr>
-          <th class="col-1"></th>
-          <th class="col-5">品名</th>
-          <th class="col-2">數量/單位</th>
-          <th class="col-4">單價</th>
+          <th class="col-xl-1 col-sm-1"></th>
+          <th class="col-xl-5 col-sm-5">品名</th>
+          <th class="col-xl-2 col-sm-3">數量/單位</th>
+          <th class="col-xl-4 col-sm-3">單價</th>
         </tr>
       </thead>
       <tbody v-if="this.carts.carts">
@@ -74,7 +74,7 @@
                     +
                   </button>
                   <span class="input-group-text" id="basic-addon2"
-                    >{{ cart.product.unit}}</span
+                    >{{ cart.product.unit.length>1?cart.product.unit:'　'+cart.product.unit}}</span
                   >
                 </div>
               </div>
@@ -195,9 +195,7 @@
 import axios from 'axios';
 
 const {VITE_URL,VITE_PATH} = import.meta.env
-import {debounce,throttle} from 'lodash';
-import _ from 'lodash';
-
+import {debounce} from 'lodash';
 export default {
   data() {
     return {
@@ -239,18 +237,18 @@ export default {
     postOrder(){
       const data={...this.orderData};
       console.log(data);
-      // axios
-      //   .post(`${VITE_URL}/api/${VITE_PATH}/order`,data)
-      //   .then((res) => {
-      //     // console.log(res);
-      //     alert(res.data.message);
-      //     // deleteCarts();
-      //     window.location = '/'
-      //     // getCarts();
-      //   })
-      //   .catch((error) => {
-      //     console.dir(error);
-      //   });      
+      axios
+        .post(`${VITE_URL}/api/${VITE_PATH}/order`,data)
+        .then((res) => {
+          // console.log(res);
+          alert(res.data.message);
+          // deleteCarts();
+          window.location = '/products'
+          // getCarts();
+        })
+        .catch((error) => {
+          console.dir(error);
+        });      
     },
     getCarts() {
       axios
@@ -366,3 +364,9 @@ export default {
 }
 
 </script>
+<!-- <style>
+  .input-group-text::before {
+    content: "　　";
+    /* 可以添加其他样式属性 */
+  }
+</style> -->

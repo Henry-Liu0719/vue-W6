@@ -14,7 +14,7 @@
       <!-- {{this.products[2]}} -->
       <div class="container">
         <div class="mt-4">
-          <div class="alert alert-primary" role="alert" v-if="isCartAdded">
+          <div class="alert alert-primary position-fixed" role="alert" v-if="isCartAdded">
         {{ cartAddedMessage }}
       </div>
           <!-- 產品Modal -->
@@ -56,15 +56,16 @@
                       class="btn btn-outline-secondary"
                       @click="openModal(product)"
                     >
-                      <i class="fas fa-spinner fa-pulse" v-if="isUpdating"></i>
+                      <!-- <i class="fas fa-spinner fa-pulse" :style="{ opacity: isUpdating ? '1' : '0' }"></i> -->
                       查看更多
                     </button>
+                    <i class="fas fa-spinner fa-pulse" :style="{ opacity: isUpdating ? '1' : '0' }"></i>
                     <button
                       type="button"
                       class="btn btn-outline-danger"
                       @click="addToCart(product.id)"
-                    >
-                      <i class="fas fa-spinner fa-pulse" v-if="isUpdating"></i>
+                      >
+                      
                       加到購物車
                     </button>
                   </div>
@@ -124,39 +125,9 @@ export default {
     UserProductModal
   },
   methods: {
-    postOrder(){
-      const data=this.orderData;
-      // console.log(data);
-      axios
-        .post(`${VITE_URL}/api/${VITE_PATH}/order`,data)
-        .then((res) => {
-          // console.log(res);
-          alert(res.data.message);
-          // deleteCarts();
-          window.location = '/'
-          // getCart();
-        })
-        .catch((error) => {
-          console.dir(error);
-        });      
-    },
     openModal(product) {
       this.tempProduct = product;
       this.$refs.userModal.open();
-      // console.log(this.tempProduct.title);
-    },
-    getCart() {
-      axios
-        .get(`${VITE_URL}/api/${VITE_PATH}/cart`)
-        .then((res) => {
-          // console.log(res);
-          this.carts = res.data.data;
-          this.isLoading = false;
-          this.isUpdating = false;
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
     },
     addToCart(id,value=1) {
       const data = {
@@ -172,62 +143,13 @@ export default {
         .then((res) => {
           console.log(res);
           this.isUpdating = false;
-          this.cartAddedMessage = `${res.data.data.product.title}加入購物車成功`
-          this.isCartAdded = !this.isCartAdded
+          this.cartAddedMessage = `${res.data.data.product.title}加入購物車成功。`
+          this.isCartAdded = true
           setTimeout(()=>{
-            this.isCartAdded = !this.isCartAdded
+            this.isCartAdded = false
           },3000);
           this.$refs.userModal.close();
           // this.getCarts();
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    deleteCart(id) {
-      // console.log(id);
-      this.isUpdating = true;
-      axios
-        .delete(`${VITE_URL}/api/${VITE_PATH}/cart/${id}`)
-        .then((res) => {
-          // console.log(res);
-          this.getCart();
-          // this.carts = res.data.data;
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    deleteCarts() {
-      this.isLoading = true;
-      axios
-        .delete(`${VITE_URL}/api/${VITE_PATH}/carts`)
-        .then((res) => {
-          // console.log(res);
-          this.getCart();
-          alert("購物車已清空");
-          // this.carts = res.data.data;
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    updateCart(cart, qty) {
-      // console.log(id);
-      const data = {
-        data: {
-          product_id: cart.product_id,
-          qty: Number(qty),
-        },
-      };
-      // console.log(data.data.product_id);
-      this.isUpdating = true;
-      axios
-        .put(`${VITE_URL}/api/${VITE_PATH}/cart/${cart.id}`, data)
-        .then((res) => {
-          // console.log(res);
-          this.getCart();
-          // this.carts = res.data.data;
         })
         .catch((error) => {
           console.dir(error);
@@ -239,30 +161,16 @@ export default {
         .then((res) => {
           // console.log(res);
           this.isLoading = false;
+          this.isUpdating = false;
           this.products = res.data.products;
         })
         .catch((error) => {
           console.dir(error);
         });
     },
-    isPhone(value) {
-    const phoneNumber = /^(09)[0-9]{8}$/
-    return phoneNumber.test(value) ? true : '需要正確的電話號碼'
-    },
-    // minLength8(value) {
-    // // 檢查字串長度是否大於等於8
-    //   return value.length >= 8?true:'電話須超過8碼';
-    // },
-    // isPhoneOrMinLength8(value) {
-    //   // 使用 || 运算符组合两个条件
-    //   if(value.length < 8)return '電話須超過8碼'
-    //   return this.isPhone(value)==true || this.minLength8(value)==true?true:'需要正確的電話號碼';
-    // },
   },
   mounted() {
     this.getAllProducts();
-    this.getCart();
-    // console.log(VueLoading);
   },  
 }
 
