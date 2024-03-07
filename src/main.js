@@ -1,10 +1,10 @@
 // import './assets/main.css'
-// import 'bootstrap/scss/bootstrap.scss'
+import 'bootstrap/scss/bootstrap.scss'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import './assets/all.scss'
+// import './assets/all.scss'
 import '@fortawesome/fontawesome-free/css/all.css'
 import { createI18n } from 'vue-i18n';
 import { Field, Form, ErrorMessage, defineRule, configure } from 'vee-validate';
