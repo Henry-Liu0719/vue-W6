@@ -1,0 +1,1 @@
+import{_ as s,c as o,b as t,t as r,F as a,o as n}from"./index-DpuNeIf4.js";const c={data(){return{id:this.$route.params.id}}},i=t("h1",null,"產品頁",-1);function d(l,_,p,u,e,f){return n(),o(a,null,[i,t("div",null,r(e.id),1)],64)}const h=s(c,[["render",d]]);export{h as default};

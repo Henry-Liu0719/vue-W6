@@ -1,1 +1,0 @@
-import{_ as t,c as s,o,F as n,b as e}from"./index-XsJw2mcj.js";const r={data(){return{}},methods:{}},a=e("h1",null,"訂單列表",-1),c=e("div",null,null,-1);function _(l,d,u,i,p,f){return o(),s(n,null,[a,c],64)}const h=t(r,[["render",_]]);export{h as default};
